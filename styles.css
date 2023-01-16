@@ -1,3 +1,17 @@
-.red {
-  color: red;
+div#root {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.card {
+  display: flex;
+  border: 2px solid gray;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.card-img {
+  width: 200px;
+  height: 200px;
 }
