@@ -65,10 +65,9 @@ function generateCards() {
 }
 
 function scrollListener() {
-  console.log(root.scrollTop, root.scrollHeight, root.clientHeight);
   if (root.scrollTop >= (root.scrollHeight - root.clientHeight) * 0.8) {
     initialIndex = cardToDisplay * 3 + 1;
-    cardToDisplay += cardToDisplay;
+    cardToDisplay += 12;
     generateCards();
   }
 }
