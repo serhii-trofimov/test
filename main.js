@@ -3,12 +3,7 @@ const totalCardAmount = 36;
 const basePicturesURL = "https://picsum.photos/id";
 let cardToDisplay = totalCardAmount;
 let initialIndex = 1;
-const prefetchItemsCount = totalCardAmount / 3
-
-if (window.matchMedia("(max-width: 768px)").matches) {
-  console.log('small');
-  cardToDisplay = prefetchItemsCount;
-}
+const prefetchItemsCount = totalCardAmount / 3;
 
 function setSrc(imgEl, id, width, height) {
   imgEl.src = `${basePicturesURL}/${id}/${width}/${height}`;
@@ -18,14 +13,14 @@ function setSrc(imgEl, id, width, height) {
     imgEl.id = newId;
     setSrc(imgEl, newId, width, height);
     addListeners(imgEl);
-  }
+  };
 }
 
 function createImgEl(id) {
   const imgEl = new Image();
   imgEl.classList.add("card-img");
   imgEl.id = id;
-  setSrc(imgEl, id, 1300, 1300);
+  setSrc(imgEl, id, 1800, 1800);
 
   return imgEl;
 }
@@ -40,15 +35,15 @@ function createCardItem() {
 function addListeners(imgEl) {
   const initialSrc = imgEl.src;
 
-  imgEl.addEventListener('mouseenter', () => {
+  imgEl.addEventListener("mouseenter", () => {
     const newId = +imgEl.id + 1;
 
-    setSrc(imgEl, newId, 1300, 1300);
-  })
+    setSrc(imgEl, newId, 1800, 1800);
+  });
 
-  imgEl.addEventListener('mouseleave', () => {
+  imgEl.addEventListener("mouseleave", () => {
     imgEl.src = initialSrc;
-  })
+  });
 }
 
 function generateCards() {
@@ -56,13 +51,17 @@ function generateCards() {
     const card = createCardItem();
     const staticImage = createImgEl(i);
     const dynamicImage = createImgEl(i + 1);
-  
+
     addListeners(dynamicImage);
-  
+
     card.appendChild(staticImage);
     card.appendChild(dynamicImage);
-  
+
     root.appendChild(card);
+  }
+
+  for (let i = initialIndex; i <= cardToDisplay * 3; i += 3) {
+    preloadImage(i);
   }
 
   if (cardToDisplay >= totalCardAmount) {
@@ -76,17 +75,12 @@ function scrollListener() {
     cardToDisplay += prefetchItemsCount;
     generateCards();
   }
-};
+}
+
+function preloadImage(id) {
+  setSrc(new Image(), id, 1800, 1800);
+}
 
 root.addEventListener("scroll", scrollListener);
 
 generateCards();
-
-
-// for (let i = 3; i <= totalCardAmount * 3; i += 3) {
-//   preloadImage(i)
-// }
-
-// function preloadImage(id) {
-//   setSrc(new Image(), id, 1300, 1300);
-// }
