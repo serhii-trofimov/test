@@ -1,7 +1,10 @@
 div#root {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 12px;
+  height: 100vh;
+  overflow-y: scroll;
 }
 
 .card {
@@ -12,6 +15,6 @@ div#root {
 }
 
 .card-img {
-  width: 200px;
-  height: 200px;
+  width: 180px;
+  height: 180px;
 }

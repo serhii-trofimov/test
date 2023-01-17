@@ -1,6 +1,14 @@
 const root = document.getElementById("root");
-const totalCardAmount = 32;
+const totalCardAmount = 36;
 const basePicturesURL = "https://picsum.photos/id";
+let cardToDisplay = totalCardAmount;
+let initialIndex = 1;
+const prefetchItemsCount = totalCardAmount / 3
+
+if (window.matchMedia("(max-width: 768px)").matches) {
+  console.log('small');
+  cardToDisplay = prefetchItemsCount;
+}
 
 function setSrc(imgEl, id, width, height) {
   imgEl.src = `${basePicturesURL}/${id}/${width}/${height}`;
@@ -43,23 +51,42 @@ function addListeners(imgEl) {
   })
 }
 
-for (let i = 1; i <= totalCardAmount * 3; i += 3) {
-  const card = createCardItem();
-  const staticImage = createImgEl(i);
-  const dynamicImage = createImgEl(i + 1);
+function generateCards() {
+  for (let i = initialIndex; i <= cardToDisplay * 3; i += 3) {
+    const card = createCardItem();
+    const staticImage = createImgEl(i);
+    const dynamicImage = createImgEl(i + 1);
+  
+    addListeners(dynamicImage);
+  
+    card.appendChild(staticImage);
+    card.appendChild(dynamicImage);
+  
+    root.appendChild(card);
+  }
 
-  addListeners(dynamicImage);
-
-  card.appendChild(staticImage);
-  card.appendChild(dynamicImage);
-
-  root.appendChild(card);
+  if (cardToDisplay >= totalCardAmount) {
+    root.removeEventListener("scroll", scrollListener);
+  }
 }
 
-for (let i = 3; i <= totalCardAmount * 3; i += 3) {
-  preloadImage(i)
-}
+function scrollListener() {
+  if (root.scrollTop >= (root.scrollHeight - root.clientHeight) * 0.8) {
+    initialIndex = cardToDisplay * 3 + 1;
+    cardToDisplay += prefetchItemsCount;
+    generateCards();
+  }
+};
 
-function preloadImage(id) {
-  setSrc(new Image(), id, 1300, 1300);
-}
+root.addEventListener("scroll", scrollListener);
+
+generateCards();
+
+
+// for (let i = 3; i <= totalCardAmount * 3; i += 3) {
+//   preloadImage(i)
+// }
+
+// function preloadImage(id) {
+//   setSrc(new Image(), id, 1300, 1300);
+// }
