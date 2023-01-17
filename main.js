@@ -59,25 +59,18 @@ function generateCards() {
     root.appendChild(card);
   }
 
-  for (let i = initialIndex; i <= cardToDisplay * 3; i += 3) {
-    preloadImage(i + 2);
-  }
-
   if (cardToDisplay >= totalCardAmount) {
     root.removeEventListener("scroll", scrollListener);
   }
 }
 
 function scrollListener() {
+  console.log(root.scrollTop, root.scrollHeight, root.clientHeight);
   if (root.scrollTop >= (root.scrollHeight - root.clientHeight) * 0.8) {
     initialIndex = cardToDisplay * 3 + 1;
     cardToDisplay += cardToDisplay;
     generateCards();
   }
-}
-
-function preloadImage(id) {
-  setSrc(new Image(), id, 1800, 1800);
 }
 
 root.addEventListener("scroll", scrollListener);
