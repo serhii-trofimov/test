@@ -1,9 +1,8 @@
 const root = document.getElementById("root");
 const totalCardAmount = 36;
 const basePicturesURL = "https://picsum.photos/id";
-let cardToDisplay = totalCardAmount;
+let cardToDisplay = totalCardAmount / 3;
 let initialIndex = 1;
-const prefetchItemsCount = totalCardAmount / 3;
 
 function setSrc(imgEl, id, width, height) {
   imgEl.src = `${basePicturesURL}/${id}/${width}/${height}`;
@@ -61,7 +60,7 @@ function generateCards() {
   }
 
   for (let i = initialIndex; i <= cardToDisplay * 3; i += 3) {
-    preloadImage(i);
+    preloadImage(i + 2);
   }
 
   if (cardToDisplay >= totalCardAmount) {
@@ -72,7 +71,7 @@ function generateCards() {
 function scrollListener() {
   if (root.scrollTop >= (root.scrollHeight - root.clientHeight) * 0.8) {
     initialIndex = cardToDisplay * 3 + 1;
-    cardToDisplay += prefetchItemsCount;
+    cardToDisplay += cardToDisplay;
     generateCards();
   }
 }
